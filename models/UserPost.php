@@ -19,6 +19,7 @@ use Yii;
  * @property UserPostLike[] $postLikes
  * @property integer $postPositiveLikesCount
  * @property integer $postNegativeLikesCount
+ * @property UserPostTag[] $postTags
  */
 class UserPost extends \yii\db\ActiveRecord
 {
@@ -120,5 +121,14 @@ class UserPost extends \yii\db\ActiveRecord
     public function getPostNegativeLikesCount()
     {
         return $this->hasOne(UserPostLike::className(), ['post' => 'id'])->where(['likeType' => '-1'])->count();
+    }
+
+    /**
+     * Возвращает список тегов поста
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPostTags()
+    {
+        return $this->hasMany(UserPostTag::className(), ['post' => 'id']);
     }
 }

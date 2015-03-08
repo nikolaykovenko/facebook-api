@@ -7,7 +7,9 @@
 
 namespace app\controllers;
 
+use app\models\UserPost;
 use app\models\UserPostLike;
+use app\models\UserPostTag;
 use app\ncms\core\Controller;
 use yii\filters\AccessControl;
 
@@ -63,6 +65,37 @@ class PostController extends Controller
         }
         
         
+        return $this->renderAjax('/site/json-result');
+    }
+
+    /**
+     * Добавляет новый тег
+     * @param int $post
+     * @param string $tag
+     * @return string
+     */
+    public function actionAddTag($post, $tag)
+    {
+        $postItem = UserPost::findOne(['id' => $post]);
+        if (empty($postItem) or $postItem->user->id != \Yii::$app->user->identity->id) {
+            $this
+                ->setVariable('status', 'error')
+                ->setVariable('message', 'Ви не можете додавати теги до постів інших користувачів');
+        } else {
+            $tagItem = new UserPostTag();
+            $tagItem->post = $post;
+            $tagItem->tag = $tag;
+
+            if ($tagItem->save()) {
+                $this
+                    ->setVariable('status', 'ok')
+                    ->setVariable('message', $this->renderPartial('/post/tag-item', ['tag' => $tagItem]));
+                
+            } else {
+                $this->modelsValidationErrorsToAjax($tagItem);
+            }
+        }
+
         return $this->renderAjax('/site/json-result');
     }
 }

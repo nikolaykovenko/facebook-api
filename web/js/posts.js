@@ -1,3 +1,18 @@
+function addTagResponse(result, form) {
+    form.fadeTo(200, 1);
+    
+    switch  (result.status) {
+        case 'ok':
+            form.parents('[data-post-id]').find('[data-tags]').prepend(result.message);
+            form.find('#add-tag').val('');
+            break;
+        
+        default:
+            alert(result.message);
+    }
+}
+
+
 $(function() {
     $('[data-post-id]').on('click', '[data-like]', function () {
         var button = $(this)

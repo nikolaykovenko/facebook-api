@@ -21,16 +21,19 @@ $(function () {
         var form = $(this);
 
         form.fadeTo(200, .6);
-        $.post(form.attr('action'), {'form': form.serialize()}, function (data) {
-            var result = $.parseJSON(data),
-                 callback = form.attr('data-ajax-form-response'),
-                 fn = window[callback];
-
-            if (typeof fn === 'function') {
-                fn(result, form);
-            } else {
-                form.fadeTo(200, 1);
-                ajaxDefaultResponse(data);
+        $.ajax({
+            type: 'get',
+            url: form.attr('action'),
+            'data': form.serialize(),
+            'success': function (data) {
+                var result = $.parseJSON(data), callback = form.attr('data-ajax-form-response'), fn = window[callback];
+                
+                if (typeof fn === 'function') {
+                    fn(result, form);
+                } else {
+                    form.fadeTo(200, 1);
+                    ajaxDefaultResponse(data);
+                }
             }
         });
 

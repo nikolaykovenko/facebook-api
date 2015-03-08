@@ -59,9 +59,14 @@ $this->registerJsFile('/js/posts.js', ['depends' => [\app\assets\AppAsset::class
                             </div>
                             <div class="col-xs-12">
                                 <div class="tags" data-tags>
+                                    <?php foreach ($post->postTags as $tag): ?>
+                                        <?= $this->render('/post/tag-item', ['tag' => $tag]) ?>
+                                    <?endforeach ?>
                                     
                                 </div>
-                                <form class="form-inline" action="" method="post" data-ajax-form>
+                                <form class="form-inline" action="<?= \yii\helpers\Url::to(['/post/add-tag']) ?>"
+                                      method="post" data-ajax-form-response="addTagResponse" data-ajax-form>
+                                    <input type="hidden" name="post" value="<?= $post->id ?>">
                                     <div class="form-group">
                                         <label for="add-tag">Додати тег</label>
                                         <input name="tag" type="text" class="form-control" id="add-tag" placeholder="Новий тег" required>

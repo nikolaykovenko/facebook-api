@@ -3,6 +3,11 @@ body {
     height: 100%;
 }
 
+.label {
+    padding: 4px 10px;
+    font-size: 100%;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
@@ -38,4 +43,12 @@ body {
 
 .users-list .item {
     margin-bottom: 20px;
+}
+
+.tags {
+    padding: 10px 0;
+}
+
+.tags .label {
+    vertical-align: top;
 }
