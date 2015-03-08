@@ -35,6 +35,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $items = User::find()->all();
+        
+        $this->view->title = 'Список користувачів';
         return $this->render('users-list', ['itemsList' => $items]);
     }
 
@@ -62,6 +64,7 @@ class SiteController extends Controller
             
         }
         
+        $this->view->title = 'Сторінка користувача ' .$item->name;
         return $this->render('user-page', ['item' => $item]);
     }
 }

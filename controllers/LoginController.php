@@ -24,6 +24,7 @@ class LoginController extends Controller
      */
     public function actionIndex()
     {
+        $this->view->title = 'Авторизація';
         return $this->render('login');
     }
 
@@ -35,8 +36,12 @@ class LoginController extends Controller
      */
     public function actionLogin($system)
     {
-        $oauth = Factory::getObject($system);
-        return $this->redirect($oauth->loginRedirectUrl());
+        try {
+            $oauth = Factory::getObject($system);
+            return $this->redirect($oauth->loginRedirectUrl());
+        } catch (Exception $e) {
+            return $this->render('/site/text', ['text' => 'Даний спосіб авторизації знаходиться в розробці']);
+        }
     }
 
     /**

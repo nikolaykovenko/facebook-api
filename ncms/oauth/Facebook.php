@@ -139,7 +139,6 @@ class Facebook extends AOath
      */
     private function redirectUrl()
     {
-//       TODO: временно для локальной версии. Убрать.
-        return 'http://lemberg.wedes.net' . Url::to(['/login/auth', 'system' => 'facebook']);
+        return Url::to(['/login/auth', 'system' => 'facebook'], true);
     }
 }
