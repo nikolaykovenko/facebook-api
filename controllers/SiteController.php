@@ -15,32 +15,10 @@ use yii\web\NotFoundHttpException;
  */
 class SiteController extends Controller
 {
-    /*
-    public function behaviors()
-    {
-        
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'denyCallback' => function () {
-                    $this->redirect(['/login']);
-                },
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['login'],
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-    */
 
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [

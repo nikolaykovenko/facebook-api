@@ -16,6 +16,9 @@ use Yii;
  * @property string $url
  *
  * @property User $user
+ * @property UserPostLike[] $postLikes
+ * @property integer $postPositiveLikesCount
+ * @property integer $postNegativeLikesCount
  */
 class UserPost extends \yii\db\ActiveRecord
 {
@@ -84,10 +87,38 @@ class UserPost extends \yii\db\ActiveRecord
     }
 
     /**
+     * Возвращает запись автора поста
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'userId']);
+    }
+
+    /**
+     * Возвращает список всех лайков и дизлайков поста
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPostLikes()
+    {
+        return $this->hasMany(UserPostLike::className(), ['post' => 'id']);
+    }
+
+    /**
+     * Возвращает количество лайков поста 
+     * @return int
+     */
+    public function getPostPositiveLikesCount()
+    {
+        return $this->hasOne(UserPostLike::className(), ['post' => 'id'])->where(['likeType' => '1'])->count();
+    }
+
+    /**
+     * Возвращает количество дизлайков поста
+     * @return int
+     */
+    public function getPostNegativeLikesCount()
+    {
+        return $this->hasOne(UserPostLike::className(), ['post' => 'id'])->where(['likeType' => '-1'])->count();
     }
 }

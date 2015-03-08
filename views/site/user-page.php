@@ -1,6 +1,8 @@
 <?php
 /** @var \app\models\User $item */
 $putAttributes = ['email'];
+/** @var \yii\web\View $this */
+$this->registerJsFile('/js/posts.js', ['depends' => [\app\assets\AppAsset::className()]]);
 ?>
 <section class="user-page">
     <div class="row">
@@ -26,7 +28,7 @@ $putAttributes = ['email'];
         <section class="user-posts-list">
             <h2>Пости користувача:</h2>
             <?php foreach ($item->posts as $post): ?>
-                <article class="item">
+                <article class="item" data-post-id="<?= $post->id ?>">
                     <div class="row">
                         <div class="col-sm-4 col-md-2">
                             <div class="image">
@@ -41,11 +43,31 @@ $putAttributes = ['email'];
                     </div>
                     <footer class="item-footer">
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <?= Yii::$app->formatter->asDatetime($post->date) ?>
                             </div>
-                            <div class="col-xs-6 text-right">
-                                <?= !empty($post->url) ? '<a href="' . $post->url . '" target="_blank">Детальний перегляд</a>' : '' ?>
+                            <div class="col-xs-4 text-center">
+                                <button class="btn btn-success" data-like="1">
+                                    Лайк (<span data-likes-count><?= $post->postPositiveLikesCount ?></span>) <span class="glyphicon glyphicon-thumbs-up"></span>
+                                </button>
+                                <button class="btn btn-danger" data-like="-1">
+                                    НеЛайк (<span data-likes-count><?= $post->postNegativeLikesCount ?></span>) <span class="glyphicon glyphicon-thumbs-down"></span>
+                                </button>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <?= !empty($post->url) ? '<a class="btn btn-link" href="' . $post->url . '" target="_blank">Детальний перегляд</a>' : '' ?>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="tags" data-tags>
+                                    
+                                </div>
+                                <form class="form-inline" action="" method="post" data-ajax-form>
+                                    <div class="form-group">
+                                        <label for="add-tag">Додати тег</label>
+                                        <input name="tag" type="text" class="form-control" id="add-tag" placeholder="Новий тег" required>
+                                    </div>
+                                    <input type="submit" class="btn btn-primary" value="Додати">
+                                </form>
                             </div>
                         </div>
                     </footer>
